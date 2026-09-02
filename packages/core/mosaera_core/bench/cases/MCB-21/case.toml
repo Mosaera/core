@@ -1,0 +1,13 @@
+# MCB-21: add a tag/find feature to a small MULTI-MODULE CLI package (journal).
+# The deliverable is a real package run as `python -m journal` (cli -> store ->
+# model), so the change must be wired correctly across modules — the class of
+# integration bug (a str where a Path is expected) that unit tests miss but a
+# black-box CLI grader catches. Also the first case whose entrypoint exercises
+# the ADR-0025 behaviour-smoke floor (`python -m journal --help`).
+kind = "python-cli"
+capability = "feature"
+tier = "moderate"
+max_iterations = 6
+budget_usd = 1.0
+budget_tokens = 400000
+budget_iterations = 6

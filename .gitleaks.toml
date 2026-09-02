@@ -1,0 +1,21 @@
+# Gitleaks configuration for the Mosaera repository.
+# Extends the default ruleset and allowlists test fixtures that intentionally
+# embed sample/fake secrets (used to prove the scanner detects them), so CI's
+# secret scan doesn't flag our own tests. This config applies only to scans of
+# THIS repo; the runtime scanner loads the target repo's own config.
+title = "Mosaera Gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Test fixtures with intentional sample secrets"
+paths = [
+  '''packages/core/tests/test_scan\.py''',
+  '''apps/api/tests/test_api\.py''',
+  # The PM-turn redaction tests (#…, new on staging): they PLANT a fake `glpat_` token and assert
+  # the transcript stores it redacted, so the fixture must contain the thing the scanner detects.
+  # Caught by a dry-run of the `secrets` job against a clean clone BEFORE the staging->main MR —
+  # CI had never seen this file, since a push to `staging` runs no pipeline at all.
+  '''apps/api/tests/test_decisions\.py''',
+]

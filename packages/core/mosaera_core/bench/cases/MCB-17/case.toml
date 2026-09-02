@@ -1,0 +1,9 @@
+# MCB-17: harden a naive CSV-table parser that mis-parses ragged rows. Robustness /
+# input-validation beyond the happy path — a typed error on bad shape, not silent loss.
+kind = "python"
+capability = "robustness"
+tier = "moderate"
+max_iterations = 6
+budget_usd = 1.0
+budget_tokens = 400000
+budget_iterations = 6

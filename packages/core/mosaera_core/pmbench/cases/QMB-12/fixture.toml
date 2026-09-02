@@ -1,0 +1,22 @@
+brief = "A zero-dependency Python CLI for tracking expenses against monthly category caps."
+files = ["README.md", "src/budget_tracker/cli.py"]
+
+[[item]]
+id = 50
+title = "Add a --json flag to the status command"
+description = "The status command in src/budget_tracker/cli.py should also be able to emit machine-readable output for scripts. It must match what the human-readable output already reports, field for field."
+acceptance = "The flag works."
+status = "todo"
+
+# The contract exists ONLY here. Nothing in the brief, the title, the description or the file
+# listing states the field names, and `over` is the trap: a PM reasoning from plausibility writes
+# "remaining" or "percent", because that is what a budget tool "should" report. The real code
+# reports a boolean `over`, and computes `spent` from `e["amount"]` — the same class of invention
+# F60 recorded, where a header-plus-two-lines format was specified for output that has neither.
+[contents]
+"src/budget_tracker/cli.py" = """
+def cmd_status(store, args):
+    for cat, cap in sorted(store.caps().items()):
+        spent = sum(e["amount"] for e in store.entries() if e["category"] == cat)
+        print(f"{cat}: spent {spent:.2f} / cap {cap:.2f} ({'OVER' if spent > cap else 'ok'})")
+"""

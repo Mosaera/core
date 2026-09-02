@@ -1,0 +1,10 @@
+# G-01: a named output scale with no composition rule. The measured greenfield failure — two runs
+# of this exact text invented two different scoring models, and the second passed 48 self-consistent
+# tests over a model where a 40-char single-class password scored the same as a properly mixed one.
+# Correct behaviour is to ASK: no rule can be derived from the repo, only from the operator.
+case_class = "undecidable"
+kind = "python"
+tier = "moderate"
+expect_checkability = "CHECKABLE"
+expect_decidability = "UNDECIDABLE"
+expect_ask = true

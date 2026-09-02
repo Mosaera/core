@@ -1,0 +1,15 @@
+brief = "A zero-dependency Python CLI for tracking expenses against monthly category caps."
+files = ["README.md", "src/budget_tracker/storage.py", "src/budget_tracker/cli.py"]
+
+[[item]]
+id = 40
+title = "Add a CSV export command"
+description = "Export expenses to a CSV file. storage.py already writes rows in the column order date,amount,category,note with a header row, and the export must match that existing order exactly rather than inventing one."
+acceptance = "The export works."
+status = "todo"
+
+[[item]]
+id = 41
+title = "Document the export command in the README"
+acceptance = "README shows one runnable example of the export command and its output path."
+status = "todo"

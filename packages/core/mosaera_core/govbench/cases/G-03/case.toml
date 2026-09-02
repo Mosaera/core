@@ -1,0 +1,10 @@
+# G-03: the CONTROL, and the case that makes `asked` a real measurement. Every material claim binds
+# and the text fixes its own answers, so the correct behaviour is SILENCE. Without it a suite can
+# only reward asking, which is how you build an instrument that scores an over-asking system as
+# perfect — the same trap as MCB's Autonomy dimension scoring "parked for a human" at 30/100.
+case_class = "control"
+kind = "python"
+tier = "trivial"
+expect_checkability = "CHECKABLE"
+expect_decidability = "DECIDABLE"
+expect_ask = false

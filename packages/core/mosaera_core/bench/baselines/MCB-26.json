@@ -1,0 +1,96 @@
+{
+  "case_id": "MCB-26",
+  "overall": 75,
+  "dimensions": [
+    {
+      "name": "Planning",
+      "score": 100,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    },
+    {
+      "name": "Implementation",
+      "score": 100,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    },
+    {
+      "name": "Style",
+      "score": null,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    },
+    {
+      "name": "Types",
+      "score": null,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    },
+    {
+      "name": "Complexity",
+      "score": null,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    },
+    {
+      "name": "Cleanliness",
+      "score": null,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    },
+    {
+      "name": "Testing",
+      "score": null,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    },
+    {
+      "name": "Validation",
+      "score": 25,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    },
+    {
+      "name": "Governance",
+      "score": 50,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    },
+    {
+      "name": "Review",
+      "score": 83,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    },
+    {
+      "name": "Reliability",
+      "score": 100,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    },
+    {
+      "name": "Efficiency",
+      "score": 98,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    },
+    {
+      "name": "Autonomy",
+      "score": 30,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    }
+  ],
+  "cost": {
+    "total_tokens": 279433,
+    "usd": 0.0,
+    "calls": 42
+  },
+  "meta": {
+    "runs": 3,
+    "capability": "greenfield",
+    "tier": "moderate",
+    "kind": "sql",
+    "delivered": false
+  }
+}

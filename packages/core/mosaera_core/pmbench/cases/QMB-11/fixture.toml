@@ -1,0 +1,26 @@
+brief = "A zero-dependency Python CLI for tracking expenses against monthly category caps."
+files = ["README.md", "src/budget_tracker/cli.py"]
+
+[[item]]
+id = 60
+title = "Add expenses from the command line"
+acceptance = """`budget add 12.34 food` appends a row to the expenses file.
+The command exits 0 on success."""
+verdicts = ["satisfied", "satisfied"]
+status = "in_review"
+
+[[item]]
+id = 61
+title = "List expenses filtered by month"
+acceptance = """`budget list --month=2026-08` prints only that month's rows.
+Rows are printed in date order."""
+verdicts = ["satisfied", "unmeasured"]
+status = "in_review"
+
+[[item]]
+id = 62
+title = "Summarise spend per category"
+acceptance = """`budget summary` prints one line per category with its total.
+Totals are rounded to two decimal places."""
+verdicts = ["unmeasured", "unmeasured"]
+status = "in_review"

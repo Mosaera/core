@@ -1,0 +1,9 @@
+# `grounded` had two cases and both asked about FILES. This asks about a dependency recorded in the
+# backlog itself, so the dimension stops being a proxy for "did it read the repo overview".
+#
+# #41 depends on #40 being built first, which is stated in its own acceptance text. Naming #40 is
+# the only way to answer correctly; a plausible-sounding "no blockers" is the failure.
+case_class = "grounding"
+paths = "chat"
+expect_ops = false
+must_contain = ["40"]

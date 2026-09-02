@@ -1,0 +1,10 @@
+# MCB-33: a DOCSTRING reword. Second CLEAN non-behavioural case: unlike MCB-32 the changed line
+# is inside a function body, so it does not hit the module-scope coverage defect that makes a
+# top-level assignment structurally uncoverable (coveragemap.change_is_covered).
+kind = "python"
+capability = "non-behavioural"
+tier = "trivial"
+max_iterations = 4
+budget_usd = 1.0
+budget_tokens = 300000
+budget_iterations = 4

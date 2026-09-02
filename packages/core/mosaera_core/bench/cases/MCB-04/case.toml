@@ -1,0 +1,10 @@
+# MCB-04: add a search subcommand to an existing, working notes CLI. Tests
+# read-before-write — the agent must conform to the established dispatch, storage,
+# and output conventions rather than scaffold anew.
+kind = "python"
+capability = "feature"
+tier = "moderate"
+max_iterations = 6
+budget_usd = 1.0
+budget_tokens = 400000
+budget_iterations = 6

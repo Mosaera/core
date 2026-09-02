@@ -1,0 +1,52 @@
+# Local development services for Mosaera.
+#
+# NOTHING HERE IS NAMED ABSOLUTELY — no project, no container, no volume. A deployment is identified
+# by the DIRECTORY IT WAS INSTALLED INTO, which every caller supplies with `--project-directory`.
+# That is what makes `docker compose down --volumes` in one install incapable of touching another:
+# on a server running several Postgres containers, this one owns exactly the volume, container and
+# network that carry its own project prefix, and can see nothing else.
+#
+# Compose otherwise derives the project from this file's own parent directory — `docker` — so every
+# checkout on a machine resolved to the same project, the same container and the same volume. Naming
+# them explicitly instead would have made that worse, not better: absolute names ignore the project
+# entirely.
+#
+# An existing install keeps its data by setting COMPOSE_PROJECT_NAME in its own `.env`, which Compose
+# reads from the project directory.
+#
+#   docker compose -f infra/docker/compose.yaml up -d   # (make db-up)
+#
+# Postgres with the pgvector extension, used for durable run memory
+# (mosaera_memory) and the LangGraph Postgres checkpointer. Dev credentials
+# only — never reuse these outside local development.
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: mosaera
+      POSTGRES_PASSWORD: mosaera
+      POSTGRES_DB: mosaera
+    # Survive a host reboot so an operator's durable memory comes back automatically.
+    restart: unless-stopped
+    ports:
+      # Bind to LOOPBACK by default (security): the two-phase install runs the target repo's
+      # untrusted build code with egress on, and a bridge container can reach host-published
+      # ports via the docker gateway. A 127.0.0.1-only publish keeps that untrusted code from
+      # reaching this DB (and other projects' tokens) while the host-side API still connects via
+      # localhost. Override to 0.0.0.0 ONLY if your environment (e.g. WSL2 without Docker
+      # integration) can't reach a loopback-bound publish: MOSAERA_DB_BIND_HOST=0.0.0.0.
+      # Also set MOSAERA_SECRET_KEY so the stored tokens are encrypted regardless (see .env.example).
+      # Host port stays configurable (avoids clashing with a local Postgres); keep MOSAERA_DB_PORT
+      # in sync with MOSAERA_DB_URL — dev-up.sh does this for you.
+      - "${MOSAERA_DB_BIND_HOST:-127.0.0.1}:${MOSAERA_DB_PORT:-5432}:5432"
+    volumes:
+      - mosaera-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mosaera -d mosaera"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  # Deliberately unnamed: Compose prefixes it with the project, so each install owns its own.
+  mosaera-pgdata:

@@ -1,0 +1,72 @@
+brief = "A zero-dependency Python CLI for tracking expenses against monthly category caps."
+
+files = [
+  "README.md", "pyproject.toml",
+  "src/budget_tracker/__init__.py", "src/budget_tracker/cli.py",
+  "src/budget_tracker/storage.py", "src/budget_tracker/utils.py",
+  "tests/test_cli_add.py", "tests/test_storage.py",
+]
+
+# Delivered work — the record. Statuses and branches mirror the live project.
+[[item]]
+id = 84
+title = "Slice 2 – List and summary commands"
+acceptance = "`budget list` outputs all expenses in CSV format."
+status = "done"
+branch = "mosaera/item-84"
+
+[[item]]
+id = 85
+title = "Slice 3 – Limit set/list and status commands"
+acceptance = "`budget limit set food 200.00` creates a caps file."
+status = "done"
+branch = "mosaera/item-85"
+
+[[item]]
+id = 86
+title = "Slice 4 – `status` must scope spend to a month"
+acceptance = "`budget status` reports only the current month's spend."
+status = "done"
+
+[[item]]
+id = 87
+title = "Fix status month handling and restore the test assertion"
+acceptance = "tests/test_cli_limit_status.py regains a real assertion on the output shape."
+status = "done"
+
+[[item]]
+id = 104
+title = "Add utils.py with ordinal helper"
+description = "A pure-Python integer-to-ordinal helper following English rules."
+status = "in_review"
+mr_url = "https://gitlab.example/g/p/-/merge_requests/7"
+
+# The actual mess: three generations of one .gitignore job, and two of one README job.
+[[item]]
+id = 88
+title = "Add a .gitignore and stop tracking build artifacts"
+acceptance = "A .gitignore exists in the repo root. No file under src/budget_tracker.egg-info/ remains tracked."
+status = "deferred"
+
+[[item]]
+id = 91
+title = ".gitignore creation and untracking of build artifacts"
+acceptance = "After committing, `git ls-files` shows no files under src/budget_tracker.egg-info."
+status = "deferred"
+
+[[item]]
+id = 96
+title = "Add .gitignore and untrack src/budget_tracker.egg-info"
+description = "Create a .gitignore at repository root and remove the tracked egg-info directory from git."
+status = "deferred"
+
+[[item]]
+id = 89
+title = "Rewrite README with concrete usage examples for every command"
+acceptance = "The README contains at least one example per command."
+status = "deferred"
+
+[[item]]
+id = 94
+title = "Rewrite README with concrete usage examples for every command per the charter"
+status = "deferred"

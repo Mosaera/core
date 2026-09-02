@@ -1,0 +1,12 @@
+# MCB-14: refactor by extracting duplicated inline validation into ONE shared
+# module-level helper both functions call, with behaviour preserved. The grader
+# checks BOTH that behaviour is unchanged (passes on the seed) AND that a shared
+# helper exists and is called by both functions (structural check — fails on the
+# seed, where the validation is copy-pasted inline), so a do-nothing run cannot score.
+kind = "python"
+capability = "refactor"
+tier = "moderate"
+max_iterations = 6
+budget_usd = 1.0
+budget_tokens = 400000
+budget_iterations = 6

@@ -1,0 +1,33 @@
+# The counterpart to QMB-06, and the reason the `contents` fixture key exists.
+#
+# QMB-06 is deliberately winnable WITHOUT reading code: it states the real contract in the item's
+# own description, so a wrong format there means the PM ignored what it was handed. That left the
+# harder question — can it author acceptance for code it has only been SHOWN, not told about? —
+# unmeasurable, because a fixture carrying a listing and no source could not pose it.
+#
+# Here the contract is in `cli.py` and nowhere else. The status output is one line per category
+# with `spent`, `cap`, and an over/under marker; a PM writing from plausibility instead invents
+# `remaining`, `percent`, or a summary header. This case MUST fail on a build where curate has no
+# code evidence — a case that cannot fail before the change proves nothing about it after.
+case_class = "grounding"
+paths = "curate"
+expect_ops = true
+expect_op_kinds = ["enhance"]
+
+# Chosen from OBSERVED output, not from what seemed reasonable, because three assertions this
+# suite shipped passed for the wrong reason. Ungrounded (3 probe passes, gpt-oss:20b) the model
+# invented `total_spent`, `remaining_cap`, `category_breakdown`, an `--human` flag and a `-q`
+# flag; grounded it quoted `cmd_status`, `store.caps()`, two-decimal formatting and the OVER/ok
+# marker, every pass.
+#
+# `spent` alone is guessable — it scored 3/5 with no code at all. `OVER` is the discriminator: it
+# is the literal marker the real command prints, it appeared in every grounded pass and in none of
+# the ungrounded ones, and a plausibility-driven answer writes "over budget" or "exceeded".
+must_contain = ["spent", "OVER"]
+
+# The invention this case is named for. A budget tool "obviously" reports what is LEFT; this one
+# never computes it. Ungrounded it appeared as `remaining` / `remaining_cap` in 2 of 3 probe
+# passes, grounded in none — so this punishes invention rather than phrasing. (The concern that it
+# could also catch an honest "there is no remaining field" was checked against real output before
+# being asserted, not assumed away.)
+must_not_contain = ["remaining"]

@@ -1,0 +1,7 @@
+# `consistent` had exactly one case, and it was a deletion request — so the dimension measured
+# agreement about DESTRUCTION only. This one asks for an enhancement, so a model that is steady
+# about what to delete but erratic about what to specify is no longer invisible.
+case_class = "consistency"
+paths = "both"
+expect_consistent = true
+expect_ops = true

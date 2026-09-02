@@ -1,0 +1,11 @@
+# MCB-11: add * and / with correct operator precedence to an existing, working
+# expression evaluator that only handles + and -. Read-before-write — the agent
+# must extend the established tokenise/evaluate contract, not rewrite it, and get
+# precedence and associativity right.
+kind = "python"
+capability = "feature"
+tier = "hard"
+max_iterations = 8
+budget_usd = 1.5
+budget_tokens = 500000
+budget_iterations = 8

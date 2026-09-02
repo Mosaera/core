@@ -1,0 +1,19 @@
+brief = "A zero-dependency Python CLI for tracking expenses against monthly category caps."
+files = [
+  "README.md", "pyproject.toml",
+  "src/budget_tracker/cli.py", "src/budget_tracker/storage.py",
+  "tests/test_cli_list_summary.py",
+]
+
+[[item]]
+id = 84
+title = "Slice 2 – List and summary commands"
+acceptance = "`budget list` outputs all expenses in CSV format."
+status = "done"
+branch = "mosaera/item-84"
+
+[[item]]
+id = 92
+title = "Add CSV export built on pandas"
+acceptance = "The export command works when pandas is available."
+status = "todo"

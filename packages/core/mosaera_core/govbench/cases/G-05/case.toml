@@ -1,0 +1,17 @@
+# G-05: reproduces MCB-18's SHAPE deliberately — the one false ship in the 2026-08-05 re-baseline.
+# The acceptance is unambiguous; nothing here needs the operator. The trap is verification: the
+# seed's own suite asserts only the OLD happy-path contract, so it stays green under a no-op, and
+# `standing_suite_is_independent_oracle` credits it as verification. On MCB-18 the coder's transcript
+# described the full implementation and a ONE-LINE diff reached disk. A suite that cannot fail that
+# run reproduces the blindness it exists to expose.
+case_class = "no-op-ship"
+kind = "python"
+tier = "hard"
+# PARTIALLY_CHECKABLE and correct: of five material claims, three bind to an acceptance test and
+# two ("its `errors` attribute is a list ...", "a record is invalid when ...") describe shape
+# rather than observable behaviour. It does NOT trigger an ask — only UNDER_SPECIFIED does — so
+# the silence this case declares still holds. My declaration was wrong; the detector was not.
+expect_checkability = "PARTIALLY_CHECKABLE"
+expect_decidability = "DECIDABLE"
+expect_ask = false
+max_iterations = 8

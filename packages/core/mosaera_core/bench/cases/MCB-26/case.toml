@@ -1,0 +1,12 @@
+# MCB-26: greenfield SQL schema design (bookstore inventory). First SQL case —
+# proves the SqlPack path end-to-end (apply schema/migrations to an ephemeral
+# in-container Postgres, then run assertion queries) and a psql-based hidden grader
+# on the mosaera-sandbox-sql image. Constraint-heavy so a do-nothing or an
+# under-constrained schema visibly fails the grader.
+kind = "sql"
+capability = "greenfield"
+tier = "moderate"
+max_iterations = 6
+budget_usd = 1.0
+budget_tokens = 400000
+budget_iterations = 6

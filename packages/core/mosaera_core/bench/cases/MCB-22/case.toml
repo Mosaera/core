@@ -1,0 +1,12 @@
+# MCB-22: extend a multi-MODULE expression interpreter (tokens/parser/evaluator/cli)
+# with variables + assignment, wired across EVERY layer — a hard COHERENCE test with a
+# rock-solid deterministic oracle (exact eval results, no format looseness needed). It
+# probes the multi-file coherence ceiling with the coder isolated from oracle noise, and
+# exercises the ADR-0025 behaviour-smoke floor (`python -m calc --help`). ADR-0027 MR-B.
+kind = "python-cli"
+capability = "feature"
+tier = "hard"
+max_iterations = 8
+budget_usd = 1.5
+budget_tokens = 500000
+budget_iterations = 8

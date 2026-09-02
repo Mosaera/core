@@ -1,0 +1,42 @@
+/* Mosaera — legacy base layer (skeletal).
+   The 857-line hand-written stylesheet retired on 2026-08-13 (coherence pass): every
+   component/page class (.panel, .badge, .btn, .field, .agent-*, .diff-*, .finding, …)
+   was rebuilt on the Tailwind token system, and their blocks were deleted shrink-only.
+   What remains is the document base the app still stands on. When this file is empty,
+   import Tailwind Preflight in index.css and delete the `legacy` layer. */
+
+:root {
+  --ink: #0b0c0e;
+  --text: #e9e6e0;
+  --sans: "Archivo Variable", "Archivo", system-ui, sans-serif;
+  --amber-glow: rgba(242, 176, 28, 0.22);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  color: var(--text);
+  /* Crisp dashboard surface — the app canvas (App.tsx) paints over this. */
+  background: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: var(--amber-glow);
+}

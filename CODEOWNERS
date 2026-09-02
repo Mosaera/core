@@ -1,0 +1,26 @@
+# CODEOWNERS — path-based required review.
+#
+# Enforcement lives on the authenticated origin, not on this public distribution mirror,
+# which accepts no outside commits. This file documents which paths require owner review.
+#
+# Handles are GitLab users/groups. NOTE: CODEOWNERS *enforcement* (blocking
+# merges without owner approval) requires GitLab Premium; on Community Edition
+# this file documents review-sensitive paths but is not auto-enforced. AGENTS.md
+# mirrors this list as the agent forbidden-without-approval list — keep in sync.
+
+# Global fallback — every change gets an owner review.
+*                                   @Mosaera/engineering
+
+# --- Security-sensitive paths (require explicit owner review) ---
+/.github/                           @Mosaera/engineering
+/.github/workflows/                 @Mosaera/engineering
+/infra/                             @Mosaera/engineering
+/docs/threat-models/                @Mosaera/engineering
+/docs/adr/                          @Mosaera/engineering
+/AGENTS.md                          @Mosaera/engineering
+/.github/copilot-instructions.md    @Mosaera/engineering
+/CODEOWNERS                         @Mosaera/engineering
+/packages/policies/                 @Mosaera/engineering
+/.claude/                           @Mosaera/engineering
+/Makefile                           @Mosaera/engineering
+/.gitlab-ci.yml                     @Mosaera/engineering

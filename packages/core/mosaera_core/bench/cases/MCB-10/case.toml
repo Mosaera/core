@@ -1,0 +1,10 @@
+# MCB-10: add `delete` and `items` to an existing, working KVStore. Tests
+# read-before-write — the agent must conform to the established load/save
+# persistence conventions rather than reinvent them.
+kind = "python"
+capability = "feature"
+tier = "moderate"
+max_iterations = 6
+budget_usd = 1.0
+budget_tokens = 400000
+budget_iterations = 6

@@ -1,0 +1,15 @@
+# MCB-31: a DOCSTRING correction. Non-behavioural, and unlike MCB-30 the change is observable at
+# runtime through __doc__, so the grader can assert it by import.
+#
+# KEPT DELIBERATELY AS A CONTROL: the #118 classifier DECLINES this case. Its brief quotes the old
+# docstring ("Add up the row amounts") and `Add` is a behaviour verb, so deny-by-default fires --
+# the classifier cannot tell a quoted string from an instruction. That is a false NEGATIVE, which
+# costs a full spine and nothing else, and the brief was NOT reworded to flatter the tool. It gives
+# the A/B a real case where the lane must change nothing.
+kind = "python"
+capability = "non-behavioural"
+tier = "trivial"
+max_iterations = 4
+budget_usd = 1.0
+budget_tokens = 300000
+budget_iterations = 4

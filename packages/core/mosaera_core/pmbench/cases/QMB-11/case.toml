@@ -1,0 +1,16 @@
+# The same capability asked directly rather than about one item, so the dimension does not rest on a
+# single phrasing. Two items carry unevaluated criteria and one is fully evidenced; naming the fully
+# evidenced item as lacking evidence is as wrong as missing the other two.
+case_class = "grounding"
+paths = "chat"
+expect_ops = false
+
+must_contain = ["61", "62"]
+# #60 is fully satisfied. An answer that sweeps it in has not read the verdicts, it has listed the
+# backlog — the plausible-looking non-answer this dimension exists to catch.
+#
+# The prompt demands ids ONLY because that is what makes this check fair: a discursive answer may
+# legitimately mention #60 in order to EXCLUDE it ("#60 is complete"), and a bare substring test
+# cannot tell that from listing it. Constraining the output is the price of a deterministic grader,
+# and the first draft of this case failed its own honest answer for exactly that reason.
+must_not_contain = ["60"]

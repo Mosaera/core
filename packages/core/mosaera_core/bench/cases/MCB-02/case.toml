@@ -1,0 +1,7 @@
+# MCB-02: a static landing page. A static site has no unit-test concept, so the
+# Testing scorecard dimension is N/A (see kind); a smaller task → tighter budgets.
+kind = "static-site"
+max_iterations = 4
+budget_usd = 0.5
+budget_tokens = 300000
+budget_iterations = 4

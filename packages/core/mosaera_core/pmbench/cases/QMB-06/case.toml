@@ -1,0 +1,17 @@
+# F60 (HIGH, OPEN, issue #70): "the PM writes acceptance criteria without reading the code." It
+# invented an output format — a header line followed by two lines, and a flag that was False — that
+# did not exist anywhere in the repository. Had the run proceeded, the Proctor would have authored
+# acceptance tests against a format nothing produced.
+#
+# This case is deliberately WINNABLE. The real contract is stated in the item's own description,
+# which the PM is given verbatim, so a proposal that states a different format ignored what it was
+# handed rather than lacked it. The harder question — whether he can author acceptance for code he
+# has NOT been shown — is a substrate question, not a behaviour one, and belongs in the gap report
+# rather than in a case the fixture makes unanswerable.
+case_class = "grounding"
+paths = "curate"
+expect_ops = true
+expect_op_kinds = ["enhance"]
+
+# The literal contract from the description. Inventing a format cannot produce this string.
+must_contain = ["date,amount,category,note"]

@@ -1,0 +1,42 @@
+[project]
+name = "mosaera-api"
+version = "0.6.3"
+description = "Mosaera HTTP API: submit runs, stream progress, resolve approval gates over HTTP"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.115",
+  "uvicorn>=0.30",
+  "python-multipart>=0.0.9",
+  "pypdf>=5.0",
+  "pillow>=10.0",
+  "faster-whisper>=1.0",
+  # Durable, concurrency-safe checkpointer for cross-restart run resume (P1-2).
+  "langgraph-checkpoint-postgres>=2.0",
+  "psycopg-pool>=3.2",
+  # The first-run wizard's terminal UI (ADR-0116). Pure Python on top of rich — no native build,
+  # the same constraint that chose stdlib scrypt over argon2 for password hashing.
+  "textual>=0.80",
+  "mosaera-core",
+  "mosaera-memory",
+  "mosaera-policies",
+]
+
+[project.optional-dependencies]
+test = ["httpx>=0.27"]
+
+[project.scripts]
+mosaera-api = "mosaera_api.__main__:main"
+mosaera-pmbench = "mosaera_api.pmbench_cli:main"
+mosaera-setup = "mosaera_api.setup.__main__:main"
+
+[tool.uv.sources]
+mosaera-core = { workspace = true }
+mosaera-memory = { workspace = true }
+mosaera-policies = { workspace = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["mosaera_api"]

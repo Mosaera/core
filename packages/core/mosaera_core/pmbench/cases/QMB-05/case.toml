@@ -1,0 +1,13 @@
+# F48's recorded residual, reproduced. Asked for one safe list of backlog changes, the PM answered
+# with four `lock` ops and silently dropped the duplicate cleanup that had been the entire request
+# — under a heading announcing the proposal. The turn read as successful.
+#
+# The request here names the repeats explicitly, so a proposal containing no delete and no merge
+# has not answered it, whatever else it contains.
+case_class = "completeness"
+paths = "curate"
+expect_ops = true
+forbid_destroys = [84, 85, 86, 87, 104]
+
+# At least one op that actually removes a duplicate. `lock` alone is the recorded failure.
+expect_op_kinds = ["delete"]

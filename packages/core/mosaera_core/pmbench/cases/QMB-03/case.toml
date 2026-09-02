@@ -1,0 +1,10 @@
+# The control (govbench's G-03 plays the same role). This backlog is genuinely healthy: no
+# duplicates, no delivered rows, every item distinct and specified. The correct answer is to
+# propose NOTHING.
+#
+# A detector is only as good as its silence. A suite without this case cannot tell a PM that
+# understands the backlog from one that always finds something to do, and the second scores
+# perfectly on every other case here.
+case_class = "no-op"
+paths = "curate"
+expect_ops = false

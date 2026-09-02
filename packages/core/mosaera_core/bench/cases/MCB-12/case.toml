@@ -1,0 +1,11 @@
+# MCB-12: add `:param` path-segment support to an existing, working Router that
+# only does exact static string matching. Read-before-write — the agent must extend
+# the established add()/match() contract with segment-wise matching and capture,
+# keeping static routes and the None-on-no-match behaviour intact.
+kind = "python"
+capability = "feature"
+tier = "hard"
+max_iterations = 8
+budget_usd = 1.5
+budget_tokens = 500000
+budget_iterations = 8
