@@ -1,0 +1,11 @@
+# MCB-09: fix TWO subtle bugs in an interval-merge routine — it fails to sort an
+# unsorted input and uses a strict (overlap-only) test so it misses touching
+# intervals. Existing-codebase work (has a seed/), so kind = "python". Two entangled
+# flaws in one small function → "hard", with a little more headroom than a one-liner.
+kind = "python"
+capability = "bug-fix"
+tier = "hard"
+max_iterations = 8
+budget_usd = 1.5
+budget_tokens = 500000
+budget_iterations = 8

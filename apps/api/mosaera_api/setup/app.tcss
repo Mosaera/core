@@ -1,0 +1,295 @@
+/* The wizard's styling: one centred column, no borders, and a lot of room.
+ *
+ * There is deliberately not a single `border:` in this file. Panels, rails and framed logs make a
+ * terminal look like an admin console; their absence is what makes it look considered. Hierarchy
+ * comes from weight and dimness alone, with one accent hue — the same 256-colour orange that
+ * `dev-up.sh` and `install.sh` already print with, so the wizard and the scripts around it read as
+ * one product.
+ */
+
+$accent: #ffaf00;
+$dim: #6b6b6b;
+/* A third step below $dim, for the line UNDER a row — a prerequisite's purpose, what an uninstall
+   entry costs. With only two levels a sub-line sat at the same weight as the label it belongs to,
+   and a list of three entries read as six equal lines of prose. */
+$faint: #4e4e52;
+$alarm: #ff6b6b;
+
+Screen {
+    background: #0d0d0f;
+    color: #d8d8d8;
+    /* The field sits under everything. Two layers is the whole trick — Textual composites them, so
+       the texture is genuinely behind the content rather than around it. */
+    layers: field content;
+}
+
+/* The mosaic. `text-opacity` is doing the work an image would do elsewhere: a raster needs sixel or
+   the kitty protocol and is garbage in every other terminal, while block glyphs render wherever
+   this wizard already runs. Kept faint enough to read as a surface, never as content. */
+#field {
+    layer: field;
+    width: 100%;
+    height: 100%;
+    color: $accent;
+    text-opacity: 11%;
+}
+
+/* Scrolls rather than clips. Centred while the content is short — which is every screen but the
+   uninstall list — and scrollable when it is not, so the wordmark is never cut in half. */
+/* The header is PINNED. It used to live inside the centred stage, so every change in content
+   height moved the wordmark — measured across four screens it landed at four different heights.
+   Fixed height, fixed position: it is the one thing on screen that never moves. */
+#page {
+    layer: content;
+    width: 100%;
+    height: 100%;
+    /* The toast floats over the page rather than inside it — see `#notice`. */
+    layers: base overlay;
+}
+
+/* Three rows of air above the mark. One row read as the logotype being jammed against the window
+   frame, which is what a terminal program looks like when nobody chose the spacing. */
+/* Height is set from `ui.header_rows` at runtime, not here: it depends on the terminal. Three rows
+   of air above the mark on a full-size window; on a short one the art and then the strapline go,
+   because a logotype the operator cannot act around is worth less than the list they can. */
+#header {
+    width: 100%;
+    height: 17;
+    padding: 3 0 0 0;
+}
+
+/* 100%, not auto. An auto-width parent makes the mark's own `width: 100%` resolve against nothing,
+   and the wordmark collapses to zero columns — present in the tree, invisible on screen. */
+#header-stage {
+    width: 100%;
+    height: auto;
+}
+
+/* Content scrolls beneath it: centred while short, scrollable when not, and never pushing the
+   wordmark around. */
+/* Takes whatever is left under the header: centred while the content is short, scrollable when it
+   is not, and never able to move the wordmark. */
+/* TOP, with the box holding its own height.
+
+   The history here matters, because this setting has now been wrong in both directions. Centring
+   alone put the title on a different row for every length of copy. Top-aligning fixed that and was
+   reverted for leaving the screen bottom-heavy. The compromise — `middle` plus a `min-height` floor
+   on the box — held the title still only "on every step that FITS INSIDE" the floor, and that
+   caveat is the whole defect: a step taller than 15 rows re-centres and the title rises. Measured,
+   with the machine screen at a terminal of 42 rows: 0 gaps put the title at row 21, one gap 20, two
+   at 19, four at 18. So the title moved on precisely the machines this wizard exists for — a box
+   with prerequisites missing — and stood still only on one that needed no setup at all.
+
+   Top-aligned, the title's row is a function of the header (fixed) and this padding (fixed), and of
+   nothing that changes between steps. Content grows and scrolls DOWNWARD, away from it. The
+   bottom-heaviness that caused the revert is paid for in `padding`, which is a constant, rather
+   than in centring, which is not. */
+#scroll {
+    width: 100%;
+    height: 1fr;
+    align: center top;
+    scrollbar-size: 0 0;
+    padding: 4 0 0 0;
+}
+
+/* THE BOX. `max-width`, not a fixed width: fixed, an 80-column terminal had its content clipped
+   horizontally even though the wordmark correctly stepped down to 66 columns. The number is
+   `ui.MEASURE`, which is also what the renderers lay their columns out to — the prose wraps to the
+   same edge the tables end on, and that shared edge is the whole of the box.
+   `min-height` is the vertical half of the same idea: without it a three-line screen collapses to
+   three lines and centring drops its title ten rows below where a six-line screen puts it. */
+#stage {
+    width: 100%;
+    max-width: 84;
+    height: auto;
+    min-height: 15;
+    align-horizontal: center;
+}
+
+/* The wordmark is art now, not a line of letters — centred as a block, and it carries its own
+   vertical rhythm, so it needs no bold and less padding beneath. */
+#mark {
+    color: $accent;
+    text-align: center;
+    width: 100%;
+    padding: 0 0 0 0;
+}
+
+/* The same strapline the app's own footer carries, so the terminal and the browser agree about
+   what this product calls itself. */
+#tagline {
+    text-align: center;
+    color: $dim;
+    width: 100%;
+    padding: 1 0 2 0;
+}
+
+/* The flow's spine: every step, always, the finished ones filled. */
+#ribbon {
+    text-align: center;
+    width: 100%;
+    padding: 0 0 3 0;
+}
+
+/* A result that must outlive the repaint that follows it — failures used to be erased in the same
+   tick they were written. */
+/* The raw cause behind a summary: present, dim, and never the first thing read. */
+/* The raw cause, directly under the claim it explains — it used to sit BELOW the choices, so the
+   explanation was at the top and its evidence at the bottom with the actions in between. */
+#detail {
+    width: 100%;
+    text-align: left;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+    color: $faint;
+    padding: 0 0 1 0;
+}
+
+/* A toast: it clears itself after ten seconds, and a failure is RED. Before this a success and a
+   failure were the same colour, so "Database created" and "Could not start Postgres" read
+   identically at a glance. */
+/* A TOAST, not a paragraph. Docked above the hint with its own ground and a coloured bar, so it
+   reads as something that just happened rather than as one more line of instructions. */
+/* ON ITS OWN LAYER, docked above the hint. In the page's normal flow it took a row from `#scroll`,
+   so the centred box jumped up when a toast appeared and back down ten seconds later when it
+   expired — a notification that rearranges the screen it is reporting on. On the overlay layer it
+   costs the layout nothing. (Docked without a layer it drew on top of `#hint`; both were docked to
+   the same edge of the same layer.) */
+#notice {
+    layer: overlay;
+    dock: bottom;
+    text-align: left;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+    color: $accent;
+    background: #1c1c20;
+    width: auto;
+    max-width: 100%;
+    /* Two rows of bottom margin: the hint's own row and its padding. */
+    margin: 0 0 2 4;
+    padding: 0 2 0 1;
+}
+
+#notice.error { color: $alarm; }
+
+/* The example, under the rule rather than inside the box — a placeholder disappears at the first
+   keystroke, which is the moment an example starts being useful. */
+#field-note {
+    text-align: center;
+    color: $dim;
+    width: 100%;
+    padding: 0 0 1 0;
+}
+
+#title {
+    text-align: center;
+    text-style: bold;
+    width: 100%;
+    padding: 0 0 1 0;
+}
+
+/* Errors are left-aligned. Centred multi-line text is most of why a driver failure was unreadable
+   even where the words were fine. */
+#body.error { text-align: left; }
+
+/* LEFT, always. It used to centre normally and left-align only on error screens, so the same
+   paragraph sat differently depending on whether something had gone wrong — half the reason the
+   screens read as unconsidered. Titles stay centred; everything below them shares one left edge. */
+#body {
+    text-align: left;
+    /* Subordinate to the title and to the rows beneath it. At #a8a8a8 the explanatory paragraph
+       carried nearly the weight of the choices, so every screen presented two things to read first
+       and the eye had to decide which. Description recedes; what you act on stays bright. */
+    color: #7e7e82;
+    width: 100%;
+    padding: 0 0 1 0;
+}
+
+/* The select list is left-aligned inside the centred column: a centred list makes the eye chase
+   the cursor across the line as options change length. */
+#choices {
+    width: 100%;
+    padding: 1 0 0 0;
+}
+
+/* One line, never wrapped. `docker build` output is arbitrarily long, and a status line that wraps
+   to two rows and back to one on the next line is the jump this fixed. */
+/* Left, with the task list it annotates — centred, the log line drifted away from the rows whose
+   work it was describing. */
+#status {
+    text-align: left;
+    /* Indented under the task list rather than level with it: at the same left edge as the state
+       markers the live output line read as a fourth task. */
+    padding: 0 0 0 3;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+    height: 1;
+    color: $dim;
+    width: 100%;
+}
+
+#progress {
+    width: 100%;
+    text-align: left;
+    padding: 1 0 0 0;
+}
+
+/* `#field-input`, not `#field` — that id belongs to the mosaic, so this whole block was styling
+   the background texture and the Input kept Textual's default blue focus frame. The one visible
+   border in a file whose first line says there is not a single one. */
+#field-input {
+    /* Full width of the centred column, so the rule under it is centred by construction — a fixed
+       width left the underline hanging off to one side of the prose above it. */
+    width: 100%;
+    /* One row of text plus the rule beneath it. Textual's Input defaults to three rows tall, which
+       put a line and a half of nothing between the caret and its own underline. */
+    height: 2;
+    padding: 0;
+    margin: 0;
+    border: none;
+    /* A single accent rule under the text: enough to say "type here", no box. */
+    border-bottom: solid $dim;
+    background: transparent;
+    color: #d8d8d8;
+}
+#field-input:focus {
+    border-bottom: solid $accent;
+    background: transparent;
+}
+
+/* An empty widget still costs its padding, which is why the prompt screens had a hand's width of
+   nothing between the words and the input. Collapsed rather than merely blanked. */
+.blank { display: none; }
+
+/* Compact mode. On a short terminal the padding is what pushes the choice list off the bottom —
+   the same rows that read as considered spacing at 42 rows are the difference between usable and
+   unusable at 18. Toggled from `_fit_mark`, alongside the header shrink. */
+.compact #header { padding: 1 0 0 0; }
+.compact #ribbon { padding: 0 0 1 0; }
+.compact #title { padding: 0; }
+.compact #body { padding: 0 0 1 0; }
+.compact #choices { padding: 1 0 0 0; }
+.compact #hint { padding: 0; }
+.compact #notice { padding: 0; }
+.compact #progress { padding: 0; }
+.compact #field-note { padding: 0; }
+/* No reserved height on a short terminal: every row belongs to the content. */
+.compact #stage { min-height: 0; }
+/* And none of the air that buys top-alignment its balance on a full window. Four rows is
+   cheap at 42 and is the difference between a reachable choice list and one pushed off the
+   bottom at 24 — the same trade `header_rows` makes for the logotype. */
+.compact #scroll { padding: 1 0 0 0; }
+
+/* DOCKED. Inside the centred stage the actions floated to a different height on every screen; the
+   argument is the same one that pinned the wordmark — the things that never change should never
+   move. */
+#hint {
+    dock: bottom;
+    text-align: center;
+    text-style: italic;
+    color: $dim;
+    width: 100%;
+    padding: 0 0 1 0;
+}
+
+.hidden { display: none; }

@@ -1,0 +1,20 @@
+# Measured 2026-08-19, both halves. Asked what files it could see, the PM replied "I do not have
+# visibility into the file system of the repository" while holding a repository listing; asked
+# whether delivered items were implemented, it answered "none of the deferred items are currently
+# implemented" when two demonstrably were.
+#
+# PM_CAPABILITIES tells him never to claim inability for something on his remit, so this is a
+# measurable instruction-following failure and not a matter of taste. The forbidden phrases are
+# only fair because THIS fixture contains the file in its listing: the question is answerable from
+# what he was given.
+case_class = "limits"
+paths = "chat"
+expect_ops = false
+
+must_contain = ["src/budget_tracker/__init__.py"]
+must_not_contain = [
+  "do not have visibility",
+  "I cannot see",
+  "I don't have access",
+  "unable to determine",
+]

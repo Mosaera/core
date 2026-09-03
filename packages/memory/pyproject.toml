@@ -1,0 +1,21 @@
+[project]
+name = "mosaera-memory"
+version = "0.6.3"
+description = "Mosaera durable memory: Postgres + pgvector store for runs, decisions, artifacts"
+requires-python = ">=3.11"
+dependencies = [
+  "sqlalchemy>=2.0",
+  "psycopg[binary]>=3.2",
+  "pgvector>=0.3",
+  "alembic>=1.13",
+  # Envelope encryption of secrets at rest (mosaera_memory.secrets; ADR-0039). Lives in the
+  # leaf package so the store (gitlab tokens) and core/api (provider keys) can both reach it.
+  "cryptography>=42",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["mosaera_memory"]

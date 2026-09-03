@@ -1,0 +1,9 @@
+# MCB-06: harden an existing config loader that crashes on bad input. Robustness /
+# error-handling beyond the happy path — clean, typed failures instead of tracebacks.
+kind = "python"
+capability = "robustness"
+tier = "moderate"
+max_iterations = 6
+budget_usd = 1.0
+budget_tokens = 400000
+budget_iterations = 6

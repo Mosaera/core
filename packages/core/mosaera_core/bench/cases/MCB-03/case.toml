@@ -1,0 +1,10 @@
+# MCB-03: fix a subtle median bug in an existing package, driven from a failing
+# test. Existing-codebase work (has a seed/), so kind = "python" (craftsmanship +
+# testing dimensions apply). A focused single-bug fix → standard budgets.
+kind = "python"
+capability = "bug-fix"
+tier = "moderate"
+max_iterations = 6
+budget_usd = 1.0
+budget_tokens = 400000
+budget_iterations = 6

@@ -1,0 +1,108 @@
+[project]
+name = "mosaera"
+version = "0.6.3"
+description = "Self-hosted, model-agnostic AI team orchestration platform (workspace root)"
+requires-python = ">=3.11"
+dependencies = [
+  "mosaera-core",
+  "mosaera-agents",
+  "mosaera-policies",
+  "mosaera-memory",
+  "mosaera-connectors",
+  "mosaera-api",
+]
+
+[dependency-groups]
+dev = [
+  "ruff>=0.8",
+  "mypy>=1.13",
+  "pytest>=8.3",
+  # Property-based tests that PROVE the security chokepoints total over arbitrary input
+  # (path-safety, secret round-trip) — the "prove totality" rung of prevent-repeats (ADR-0041).
+  "hypothesis>=6.100",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.workspace]
+members = [
+  "packages/core",
+  "packages/agents",
+  "packages/policies",
+  "packages/memory",
+  "packages/connectors",
+  "apps/api",
+]
+
+[tool.uv.sources]
+mosaera-core = { workspace = true }
+mosaera-agents = { workspace = true }
+mosaera-policies = { workspace = true }
+mosaera-memory = { workspace = true }
+mosaera-connectors = { workspace = true }
+mosaera-api = { workspace = true }
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+# Benchmark cases (brief + hidden grader) and the demo-repo fixtures (#53) are
+# INPUT to the engine — representative of a user's repo, not Mosaera source — so
+# they're deliberately not held to our standards (the spaghetti demo especially).
+# The demos/ helper (materialize.py) IS linted; only the shape fixtures are excluded.
+extend-exclude = [
+  "packages/core/mosaera_core/bench/cases",
+  # Guided-posture seeds (`#64`) are fixtures for the same reason, and MORE so: their defects are
+  # SEEDED and load-bearing. A linter "fixing" the closed file handle or the `python` invocation
+  # would quietly disarm the trap the measurement depends on.
+  "packages/core/mosaera_core/bench/guided_cases",
+  # Governance cases are fixtures for the same reason: a seed is a stand-in for a user's repo,
+  # and its deliberate defects (a suite that only asserts the old contract) are the point.
+  "packages/core/mosaera_core/govbench/cases",
+  "demos/greenfield",
+  "demos/brownfield",
+  "demos/spaghetti",
+]
+
+[tool.ruff.lint]
+select = [
+  "E",   # pycodestyle errors
+  "W",   # pycodestyle warnings
+  "F",   # pyflakes
+  "I",   # isort
+  "UP",  # pyupgrade
+  "B",   # bugbear
+  "S",   # bandit (security)
+  "RUF", # ruff-specific
+]
+
+[tool.ruff.lint.per-file-ignores]
+# asserts are the point of tests; test fixtures legitimately hold fake secrets/tokens.
+"**/tests/**" = ["S101", "S105", "S106"]
+
+[tool.mypy]
+python_version = "3.12"
+exclude = ['packages/core/mosaera_core/bench/cases/', 'packages/core/mosaera_core/bench/guided_cases/', 'packages/core/mosaera_core/govbench/cases/', 'demos/greenfield', 'demos/brownfield', 'demos/spaghetti']
+ignore_missing_imports = true
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+
+[tool.pytest.ini_options]
+testpaths = ["packages", "apps"]
+# The MCB benchmark grader (bench/cases/*/grader/test_*.py) is a HIDDEN acceptance
+# suite the sandbox runs against a delivered project — not a unit test of Mosaera.
+# Exclude it from the workspace test run so `make test` never collects it.
+# `-rs` prints WHY tests skipped. Without it a run that silently dropped its
+# Docker/Postgres-gated tests is indistinguishable from one that ran them (#58) —
+# `-q` alone suppressed the reasons, so the sandbox-e2e job was green by vacancy.
+addopts = "-q -rs --ignore-glob=*/bench/cases/* --ignore-glob=*/bench/guided_cases/* --ignore-glob=*/govbench/cases/*"
+
+# The integration gates. `skip` (default) = a missing daemon/database skips those
+# tests, which is right on a laptop. `required` = a missing precondition is an
+# ERROR: a job that exists to run them may not pass by not running them. Same rule
+# ADR-0081 applies to experiments — absence of evidence is not evidence.
+markers = [
+  "requires_docker: needs a reachable Docker daemon AND the sandbox image built",
+  "requires_db: needs a reachable Postgres at MOSAERA_TEST_DB_URL",
+]

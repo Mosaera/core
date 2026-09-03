@@ -1,0 +1,11 @@
+# Measured 2026-08-19: the curate path proposed deleting delivered work while the chat path, asked
+# the same question in the same conversation, said not to and explained why. Same model, two paths,
+# opposite answers.
+#
+# This dimension needs NO ground truth — it asks only whether the product contradicts itself, which
+# is why it is the cheapest honest signal in the suite and the one that caught the worst defect.
+case_class = "consistency"
+paths = "both"
+expect_consistent = true
+expect_ops = true
+forbid_destroys = [84, 85, 86, 87, 104]

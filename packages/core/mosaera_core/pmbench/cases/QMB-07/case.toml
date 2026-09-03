@@ -1,0 +1,19 @@
+# The second half of the measured limits defect. Asked whether delivered items were implemented,
+# the PM answered "none of the deferred items are currently implemented in the repository" while
+# the context listed two that demonstrably were.
+#
+# The fixture makes this answerable twice over: the statuses are in the backlog block AND the files
+# those items produced are in the listing. An answer that cannot name them has not read what it was
+# given; PM_CAPABILITIES tells him never to claim inability for something on his remit.
+case_class = "limits"
+paths = "chat"
+expect_ops = false
+
+must_contain = ["#84"]
+must_not_contain = [
+  "cannot tell",
+  "do not have visibility",
+  "no items are",
+  "none of the",
+  "unable to determine",
+]

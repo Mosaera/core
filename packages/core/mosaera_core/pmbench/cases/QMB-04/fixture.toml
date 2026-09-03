@@ -1,0 +1,15 @@
+brief = "A zero-dependency Python CLI for tracking expenses against monthly category caps."
+
+# The answer is right here in the listing.
+files = [
+  "README.md", "pyproject.toml",
+  "src/budget_tracker/__init__.py", "src/budget_tracker/cli.py",
+  "src/budget_tracker/storage.py",
+  "tests/test_cli_add.py", "tests/test_storage.py",
+]
+
+[[item]]
+id = 103
+title = "Create budget_tracker/__init__.py"
+description = "Initial package marker for src/budget_tracker."
+status = "todo"

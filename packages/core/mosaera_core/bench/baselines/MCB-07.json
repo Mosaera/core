@@ -1,0 +1,96 @@
+{
+  "case_id": "MCB-07",
+  "overall": 97,
+  "dimensions": [
+    {
+      "name": "Planning",
+      "score": 100,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    },
+    {
+      "name": "Implementation",
+      "score": 100,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    },
+    {
+      "name": "Style",
+      "score": 100,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    },
+    {
+      "name": "Types",
+      "score": 100,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    },
+    {
+      "name": "Complexity",
+      "score": 100,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    },
+    {
+      "name": "Cleanliness",
+      "score": 100,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    },
+    {
+      "name": "Testing",
+      "score": 67,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    },
+    {
+      "name": "Validation",
+      "score": 100,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    },
+    {
+      "name": "Governance",
+      "score": 100,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    },
+    {
+      "name": "Review",
+      "score": 100,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    },
+    {
+      "name": "Reliability",
+      "score": 100,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    },
+    {
+      "name": "Efficiency",
+      "score": 100,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    },
+    {
+      "name": "Autonomy",
+      "score": 100,
+      "rationale": "mean of 3 runs",
+      "bucket": "capability"
+    }
+  ],
+  "cost": {
+    "total_tokens": 133359,
+    "usd": 0.0,
+    "calls": 31
+  },
+  "meta": {
+    "runs": 3,
+    "capability": "bug-fix",
+    "tier": "moderate",
+    "kind": "python",
+    "delivered": true
+  }
+}

@@ -1,0 +1,12 @@
+# MCB-23: greenfield TypeScript/Node CLI (todo manager). First cross-language case
+# — proves the NodePack path end-to-end (npm install -> tsc --noEmit -> the test
+# suite) and a black-box CLI grader driving `npm start --silent -- <args>` on the
+# mosaera-sandbox-node image. Deliberately mirrors MCB-01 (the Python todo CLI) so
+# the same task can be compared across languages.
+kind = "node-cli"
+capability = "greenfield"
+tier = "moderate"
+max_iterations = 6
+budget_usd = 1.0
+budget_tokens = 400000
+budget_iterations = 6

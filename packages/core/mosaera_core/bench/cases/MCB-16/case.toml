@@ -1,0 +1,10 @@
+# MCB-16: harden a numeric-summary function that crashes on messy input. Robustness /
+# error-handling beyond the happy path — ignore non-numeric entries and guard the
+# empty case instead of raising ZeroDivisionError / ValueError / TypeError.
+kind = "python"
+capability = "robustness"
+tier = "moderate"
+max_iterations = 6
+budget_usd = 1.0
+budget_tokens = 400000
+budget_iterations = 6

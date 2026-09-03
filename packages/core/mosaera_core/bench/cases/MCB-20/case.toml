@@ -1,0 +1,10 @@
+# MCB-20: add a `--json` output flag to an existing, working stats CLI. Tests
+# read-before-write — the agent must parse/strip the flag before floating the
+# rest and branch the output, conforming to the established text format.
+kind = "python"
+capability = "feature"
+tier = "moderate"
+max_iterations = 6
+budget_usd = 1.0
+budget_tokens = 400000
+budget_iterations = 6

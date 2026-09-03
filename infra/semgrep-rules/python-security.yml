@@ -1,0 +1,38 @@
+# Vendored Semgrep ruleset for the Mosaera scan sandbox.
+#
+# LOCAL rules only — the scan container runs --network none, so the semgrep
+# registry (`p/...`, `auto`) is unreachable. Keep this a small, high-signal set
+# of common Python security smells; extend deliberately (each rule is evidence a
+# human sees at the delivery gate). Add other languages as sibling files.
+rules:
+  - id: dangerous-subprocess-shell
+    languages: [python]
+    severity: ERROR
+    message: >-
+      subprocess called with shell=True — untrusted input in the command string
+      is a shell-injection risk. Pass an argv list without a shell instead.
+    patterns:
+      - pattern: subprocess.$FUNC(..., shell=True, ...)
+
+  - id: dangerous-eval
+    languages: [python]
+    severity: ERROR
+    message: >-
+      eval() executes arbitrary code — never eval untrusted input. Use a safe
+      parser (ast.literal_eval, json.loads) instead.
+    pattern: eval(...)
+
+  - id: dangerous-exec
+    languages: [python]
+    severity: ERROR
+    message: exec() executes arbitrary code — avoid running dynamically built code.
+    pattern: exec(...)
+
+  - id: yaml-unsafe-load
+    languages: [python]
+    severity: WARNING
+    message: >-
+      yaml.load without a safe Loader can construct arbitrary Python objects —
+      use yaml.safe_load.
+    patterns:
+      - pattern: yaml.load($X)

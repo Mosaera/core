@@ -1,0 +1,11 @@
+# MCB-13: refactor a long if/elif/else ladder into a table/data-driven lookup with
+# behaviour preserved. The grader checks BOTH that behaviour is unchanged (passes on
+# the seed) AND that the branchy ladder is gone (structural check — <= 1 `if` node in
+# grade_letter — fails on the seed), so a do-nothing run cannot score.
+kind = "python"
+capability = "refactor"
+tier = "moderate"
+max_iterations = 6
+budget_usd = 1.0
+budget_tokens = 400000
+budget_iterations = 6

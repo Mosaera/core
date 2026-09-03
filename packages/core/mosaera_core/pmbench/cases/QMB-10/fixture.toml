@@ -1,0 +1,12 @@
+brief = "A zero-dependency Python CLI for tracking expenses against monthly category caps."
+files = ["README.md", "src/budget_tracker/cli.py", "tests/test_cli_limit.py"]
+
+[[item]]
+id = 50
+title = "Monthly cap rollover"
+description = "Category caps may carry unspent budget into the following month."
+acceptance = """`budget limit set food 200` stores a cap of 200.00 for the food category.
+`budget status` reports spend against the stored cap and exits 0.
+Unspent cap rolls over into the next month when --rollover is set."""
+verdicts = ["satisfied", "satisfied", "unmeasured"]
+status = "in_review"

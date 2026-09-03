@@ -1,0 +1,251 @@
+import unittest
+import subprocess
+import tempfile
+import os
+import sys
+
+
+class TestCLIListCount(unittest.TestCase):
+    def setUp(self):
+        # Create a temporary CSV file with known data
+        self.temp = tempfile.NamedTemporaryFile(mode='w', suffix='.csv',
+                                                delete=False)
+        self.temp.write("amount,category,note,date\n")
+        self.temp.write("12.34,food,Lunch,2023-08-01\n")
+        self.temp.write("5.67,transport,Bus,2023-08-02\n")
+        self.temp.write("8.90,food,Dinner,2023-07-15\n")
+        self.temp.close()
+        self.path = self.temp.name
+
+    def tearDown(self):
+        os.unlink(self.path)
+
+    def run_cli(self, args):
+        return subprocess.run(
+            [sys.executable, '-m', 'budget_tracker.cli'] + args,
+            capture_output=True, text=True
+        )
+
+    def test_list_count_flag_accepted(self):
+        """`budget list --count` should accept the --count flag and exit with code 0."""
+        r = self.run_cli(['list', '--count', f'--file={self.path}'])
+        self.assertEqual(r.returncode, 0)
+
+    def test_list_count_prints_count_line_after_csv_data(self):
+        """`budget list --count` prints count line after CSV data."""
+        r = self.run_cli(['list', '--count', f'--file={self.path}'])
+        self.assertEqual(r.returncode, 0)
+        
+        # Should start with header line
+        self.assertTrue(r.stdout.startswith("amount,category,note,date\n"))
+        
+        # Split into lines
+        lines = r.stdout.strip().split('\n')
+        
+        # Should have at least 4 lines (header + 3 expense rows + count line)
+        self.assertGreaterEqual(len(lines), 4)
+        
+        # Last line should be the count line
+        last_line = lines[-1]
+        self.assertTrue(last_line.startswith("count: "))
+        
+        # Count should match number of expense rows (3)
+        self.assertIn("count: 3", last_line)
+
+    def test_list_count_without_header_when_quiet(self):
+        """`budget list --quiet --count` prints count line after expense rows, no header."""
+        r = self.run_cli(['list', '--quiet', '--count', f'--file={self.path}'])
+        self.assertEqual(r.returncode, 0)
+        
+        # Should NOT start with header line
+        self.assertFalse(r.stdout.startswith("amount,category,note,date\n"))
+        
+        # Split into lines
+        lines = r.stdout.strip().split('\n')
+        
+        # Should have at least 3 lines (3 expense rows + count line)
+        self.assertGreaterEqual(len(lines), 4)
+        
+        # Last line should be the count line
+        last_line = lines[-1]
+        self.assertTrue(last_line.startswith("count: "))
+        
+        # Count should match number of expense rows (3)
+        self.assertIn("count: 3", last_line)
+
+    def test_list_count_with_limit(self):
+        """`budget list --limit 2 --count` works correctly with limit and count."""
+        r = self.run_cli(['list', '--limit', '2', '--count', f'--file={self.path}'])
+        self.assertEqual(r.returncode, 0)
+        
+        # Should start with header line
+        self.assertTrue(r.stdout.startswith("amount,category,note,date\n"))
+        
+        # Split into lines
+        lines = r.stdout.strip().split('\n')
+        
+        # Should have at least 3 lines (header + 2 expense rows + count line)
+        self.assertGreaterEqual(len(lines), 3)
+        
+        # Last line should be the count line with count 2
+        last_line = lines[-1]
+        self.assertTrue(last_line.startswith("count: "))
+        self.assertIn("count: 2", last_line)
+
+    def test_list_count_with_month_filter(self):
+        """`budget list --month=2023-08 --count` works correctly with month filtering and count."""
+        r = self.run_cli(['list', '--month=2023-08', '--count', f'--file={self.path}'])
+        self.assertEqual(r.returncode, 0)
+        
+        # Should start with header line
+        self.assertTrue(r.stdout.startswith("amount,category,note,date\n"))
+        
+        # Split into lines
+        lines = r.stdout.strip().split('\n')
+        
+        # Should have at least 3 lines (header + 2 expense rows + count line)
+        self.assertGreaterEqual(len(lines), 3)
+        
+        # Last line should be the count line with count 2
+        last_line = lines[-1]
+        self.assertTrue(last_line.startswith("count: "))
+        self.assertIn("count: 2", last_line)
+
+    def test_list_count_with_category_filter(self):
+        """`budget list --category=food --count` works correctly with category filtering and count."""
+        r = self.run_cli(['list', '--category=food', '--count', f'--file={self.path}'])
+        self.assertEqual(r.returncode, 0)
+        
+        # Should start with header line
+        self.assertTrue(r.stdout.startswith("amount,category,note,date\n"))
+        
+        # Split into lines
+        lines = r.stdout.strip().split('\n')
+        
+        # Should have at least 3 lines (header + 2 expense rows + count line)
+        self.assertGreaterEqual(len(lines), 3)
+        
+        # Last line should be the count line with count 2
+        last_line = lines[-1]
+        self.assertTrue(last_line.startswith("count: "))
+        self.assertIn("count: 2", last_line)
+
+    def test_list_count_empty_result(self):
+        """`budget list --month=2023-09 --count` (empty result) prints count: 0."""
+        r = self.run_cli(['list', '--month=2023-09', '--count', f'--file={self.path}'])
+        self.assertEqual(r.returncode, 0)
+        
+        # Should start with header line
+        self.assertTrue(r.stdout.startswith("amount,category,note,date\n"))
+        
+        # Split into lines
+        lines = r.stdout.strip().split('\n')
+        
+        # Should have exactly 2 lines (header + count line)
+        self.assertEqual(len(lines), 2)
+        
+        # Last line should be the count line with count 0
+        last_line = lines[-1]
+        self.assertTrue(last_line.startswith("count: "))
+        self.assertIn("count: 0", last_line)
+
+    def test_list_count_empty_result_quiet(self):
+        """`budget list --quiet --month=2023-09 --count` (empty result) prints only count: 0."""
+        r = self.run_cli(['list', '--quiet', '--month=2023-09', '--count', f'--file={self.path}'])
+        self.assertEqual(r.returncode, 0)
+        
+        # Should NOT start with header line
+        self.assertFalse(r.stdout.startswith("amount,category,note,date\n"))
+        
+        # Split into lines
+        lines = r.stdout.strip().split('\n')
+        
+        # Should have exactly 1 line (count line only)
+        self.assertEqual(len(lines), 1)
+        
+        # Last line should be the count line with count 0
+        last_line = lines[-1]
+        self.assertTrue(last_line.startswith("count: "))
+        self.assertIn("count: 0", last_line)
+
+    def test_list_count_unchanged_behavior_without_flag(self):
+        """`budget list` (without --count) produces byte-for-byte identical output as before."""
+        r = self.run_cli(['list', f'--file={self.path}'])
+        self.assertEqual(r.returncode, 0)
+        
+        # Should start with header line
+        self.assertTrue(r.stdout.startswith("amount,category,note,date\n"))
+        
+        # Should contain all expense rows (3 total)
+        expected = ("amount,category,note,date\n"
+                    "12.34,food,Lunch,2023-08-01\n"
+                    "5.67,transport,Bus,2023-08-02\n"
+                    "8.90,food,Dinner,2023-07-15\n")
+        self.assertEqual(r.stdout, expected)
+
+    def test_list_count_unchanged_behavior_with_other_flags(self):
+        """`budget list --quiet --limit 2` (without --count) produces same output as before."""
+        r = self.run_cli(['list', '--quiet', '--limit', '2', f'--file={self.path}'])
+        self.assertEqual(r.returncode, 0)
+        
+        # Should NOT start with header line
+        self.assertFalse(r.stdout.startswith("amount,category,note,date\n"))
+        
+        # Should contain exactly 2 expense rows (no header)
+        expected = ("12.34,food,Lunch,2023-08-01\n"
+                    "5.67,transport,Bus,2023-08-02")
+        self.assertEqual(r.stdout, expected)
+
+    def test_list_count_format_is_plain_text_not_csv(self):
+        """`budget list --count` prints count as plain text, not CSV row."""
+        r = self.run_cli(['list', '--count', f'--file={self.path}'])
+        self.assertEqual(r.returncode, 0)
+        
+        lines = r.stdout.strip().split('\n')
+        
+        # Last line should NOT contain commas (it's plain text, not CSV)
+        last_line = lines[-1]
+        self.assertNotIn(",", last_line)
+        self.assertTrue(last_line.startswith("count: "))
+
+    def test_list_count_with_sort_flag(self):
+        """`budget list --sort --count` works correctly with sort and count."""
+        r = self.run_cli(['list', '--sort', '--count', f'--file={self.path}'])
+        self.assertEqual(r.returncode, 0)
+        
+        # Should start with header line
+        self.assertTrue(r.stdout.startswith("amount,category,note,date\n"))
+        
+        # Split into lines
+        lines = r.stdout.strip().split('\n')
+        
+        # Should have at least 4 lines (header + 3 expense rows + count line)
+        self.assertGreaterEqual(len(lines), 4)
+        
+        # Last line should be the count line with count 3
+        last_line = lines[-1]
+        self.assertTrue(last_line.startswith("count: "))
+        self.assertIn("count: 3", last_line)
+
+    def test_list_count_with_all_filters(self):
+        """`budget list --quiet --limit 1 --month=2023-08 --category=food --count` works correctly."""
+        r = self.run_cli(['list', '--quiet', '--limit', '1', '--month=2023-08', '--category=food', '--count', f'--file={self.path}'])
+        self.assertEqual(r.returncode, 0)
+        
+        # Should NOT start with header line
+        self.assertFalse(r.stdout.startswith("amount,category,note,date\n"))
+        
+        # Split into lines
+        lines = r.stdout.strip().split('\n')
+        
+        # Should have exactly 2 lines (1 expense row + count line)
+        self.assertEqual(len(lines), 2)
+        
+        # Last line should be the count line with count 1
+        last_line = lines[-1]
+        self.assertTrue(last_line.startswith("count: "))
+        self.assertIn("count: 1", last_line)
+
+
+if __name__ == '__main__':
+    unittest.main()

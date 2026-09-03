@@ -1,0 +1,14 @@
+# MCB-27: SUBTRACT. Remove a genuinely dead helper and its dead re-export, leaving every live
+# caller working. The first case in the corpus whose PURPOSE is removal (verb-arc slice 1) — MCB
+# otherwise covers greenfield, bug-fix, feature, refactor and robustness, all ADD-shaped work.
+#
+# The seed is built so the two directions are both real: `legacy_export` is dead (nothing calls
+# it), while `render_row` LOOKS similar and IS live. A run that deletes the wrong one fails the
+# hidden grader; a run that deletes neither cannot satisfy the removal claim.
+kind = "python"
+capability = "subtract"
+tier = "moderate"
+max_iterations = 6
+budget_usd = 1.0
+budget_tokens = 400000
+budget_iterations = 6

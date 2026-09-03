@@ -1,0 +1,12 @@
+# G-04: the MCB-05/15 shape, and the only class a standing decision can settle. "A handful" is a
+# magnitude that does not resolve to a count; two competent graders read 6 and 7 from one sentence.
+# Correct behaviour is to ask ONCE — and then, with the decision ratified, never again. That second
+# half is the whole point of the clause tier and the thing `compounded` measures.
+case_class = "clause-settleable"
+kind = "python"
+tier = "moderate"
+expect_checkability = "CHECKABLE"
+expect_decidability = "UNDECIDABLE"
+expect_ask = true
+clause_binds = "structural.body_statements"
+clause_value = 5

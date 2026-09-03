@@ -1,0 +1,137 @@
+{
+  "case_id": "MCB-22",
+  "overall": 88,
+  "dimensions": [
+    {
+      "name": "Planning",
+      "score": 100,
+      "rationale": "plan=True, design=True",
+      "bucket": "capability"
+    },
+    {
+      "name": "Implementation",
+      "score": 100,
+      "rationale": "9/9 acceptance tests passed",
+      "bucket": "capability"
+    },
+    {
+      "name": "Style",
+      "score": 100,
+      "rationale": "0 finding(s)",
+      "bucket": "capability"
+    },
+    {
+      "name": "Types",
+      "score": 100,
+      "rationale": "0 finding(s)",
+      "bucket": "capability"
+    },
+    {
+      "name": "Complexity",
+      "score": 80,
+      "rationale": "1 over-complex function(s)",
+      "bucket": "capability"
+    },
+    {
+      "name": "Cleanliness",
+      "score": 75,
+      "rationale": "1 stray/misplaced file(s)",
+      "bucket": "capability"
+    },
+    {
+      "name": "Testing",
+      "score": 100,
+      "rationale": "4 test file(s); pipeline ran them",
+      "bucket": "capability"
+    },
+    {
+      "name": "Validation",
+      "score": 100,
+      "rationale": "tests passed",
+      "bucket": "capability"
+    },
+    {
+      "name": "Governance",
+      "score": 50,
+      "rationale": "refused to ship work that actually passes (over-conservative)",
+      "bucket": "capability"
+    },
+    {
+      "name": "Review",
+      "score": 0,
+      "rationale": "reviewer: UNKNOWN",
+      "bucket": "signal"
+    },
+    {
+      "name": "Reliability",
+      "score": 100,
+      "rationale": "converged in 2/8 iterations",
+      "bucket": "process"
+    },
+    {
+      "name": "Efficiency",
+      "score": 96,
+      "rationale": "$0.0000, 568043 tok, 56 calls, 2 iter, 141s",
+      "bucket": "process"
+    },
+    {
+      "name": "Autonomy",
+      "score": 30,
+      "rationale": "parked for a human at the gate",
+      "bucket": "process"
+    }
+  ],
+  "cost": {
+    "total_tokens": 568043,
+    "usd": 0.0,
+    "calls": 56,
+    "by_agent": [
+      {
+        "agent": "Coder",
+        "input_tokens": 412133,
+        "output_tokens": 9708,
+        "total_tokens": 421841,
+        "usd": 0.0,
+        "calls": 35
+      },
+      {
+        "agent": "Reviewer",
+        "input_tokens": 74580,
+        "output_tokens": 7408,
+        "total_tokens": 81988,
+        "usd": 0.0,
+        "calls": 7
+      },
+      {
+        "agent": "design",
+        "input_tokens": 38317,
+        "output_tokens": 2346,
+        "total_tokens": 40663,
+        "usd": 0.0,
+        "calls": 7
+      },
+      {
+        "agent": "PM",
+        "input_tokens": 19694,
+        "output_tokens": 3857,
+        "total_tokens": 23551,
+        "usd": 0.0,
+        "calls": 7
+      }
+    ]
+  },
+  "meta": {
+    "stamp": "20260713-164130-613b96",
+    "run_id": "bench-MCB-22-20260713-164130-613b96",
+    "sandbox": "docker",
+    "kind": "python-cli",
+    "capability": "feature",
+    "tier": "hard",
+    "elapsed_s": 141.0,
+    "delivered": false,
+    "parked": true,
+    "revised": false,
+    "error": null,
+    "escalation_path": []
+  }
+}

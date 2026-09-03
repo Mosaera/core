@@ -1,0 +1,15 @@
+# MCB-28: MODIFY. Change the behaviour of an existing function that a live consumer depends on,
+# where the EXISTING test asserts the OLD behaviour and must therefore fail (verb-arc slice 4).
+#
+# The corpus had no such case. Measured 2026-08-09: of 14 sentences across 25 briefs containing a
+# modify verb, ZERO were behaviour-change items — they were "persist the change" (a noun), "after
+# your change:" (a discourse marker), "Do not change any observable behaviour" (a refactor's
+# preservation clause) and `update_user` (an API name). MCB covers greenfield, bug-fix, feature,
+# refactor and robustness; MODIFY was as absent as SUBTRACT was before MCB-27.
+kind = "python"
+capability = "modify"
+tier = "moderate"
+max_iterations = 6
+budget_usd = 1.0
+budget_tokens = 400000
+budget_iterations = 6

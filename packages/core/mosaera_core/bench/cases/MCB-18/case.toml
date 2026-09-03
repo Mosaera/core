@@ -1,0 +1,9 @@
+# MCB-18: harden a naive op-applier that crashes on the first bad op. Robustness /
+# atomic validation — aggregate every problem, apply nothing on failure, never mutate.
+kind = "python"
+capability = "robustness"
+tier = "hard"
+max_iterations = 8
+budget_usd = 1.5
+budget_tokens = 500000
+budget_iterations = 8

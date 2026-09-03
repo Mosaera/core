@@ -1,0 +1,49 @@
+# Keep the Docker build context small AND keep secrets/runtime state off the daemon.
+# Mirrors .gitignore (secrets + runtime state) and adds the heavy, never-needed build
+# artifacts, so `docker build .` (scripts/dev-up.sh) never ships ~1.1 GB of .mosaera/
+# — which holds settings.json (GitLab/BYOM secrets, plaintext unless MOSAERA_SECRET_KEY
+# is set), cloned target repos, and uploads — to the daemon (finding H-4).
+
+# --- Secrets + runtime state (NEVER send to the daemon) ---
+.mosaera/
+.env
+.env.*
+!.env.example
+# Recursive (`**/`) — a bare `*.key` in .dockerignore matches root-level only.
+**/*.pem
+**/*.key
+
+# --- Version control + CI/agent scratch ---
+.git/
+.github/
+.gitlab-ci.yml
+.claude/
+
+# --- Python build/venv/caches ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# --- Web build/deps ---
+apps/web/node_modules/
+apps/web/dist/
+node_modules/
+
+# --- OS / editor noise ---
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+*.swp

@@ -1,0 +1,59 @@
+[project]
+name = "mosaera-core"
+version = "0.6.3"
+description = "Mosaera core: config, model gateway, sandbox, repo tools, orchestrator, CLI"
+requires-python = ">=3.11"
+dependencies = [
+  "langchain>=1.0,<2",
+  "langgraph>=1.0,<2",
+  "langgraph-checkpoint-sqlite>=2.0",
+  "langgraph-checkpoint-postgres>=2.0",
+  "langchain-ollama>=0.3",
+  "langchain-openai>=0.2",
+  "langchain-anthropic>=0.3",
+  "httpx>=0.27",
+  "gitpython>=3.1",
+  # RUNTIME deps, not dev tools: hygiene.py and quality.py shell out to `python -m ruff`
+  # and `python -m mypy` during a run (the deterministic hygiene gate + quality ring).
+  # They were previously dev-group-only and worked purely because every install path
+  # synced the dev group into the same venv; under `uv sync --no-dev` or a wheel install
+  # they vanish, and a tool that cannot run used to report as "clean".
+  "ruff>=0.8",
+  "mypy>=1.13",
+  # coverage.py: the HOST reads the .coverage data the sandbox run produces (line↔test contexts)
+  # to build the change-coverage map (oracle-make-real #29). The sandbox image needs it too — the
+  # RUN happens in-sandbox — which is the separate infra prerequisite (CODEOWNERS Dockerfile MR).
+  "coverage>=7.0",
+  # PyYAML: the recon CI dimension (#41) parses .gitlab-ci.yml / GitHub workflows on
+  # the HOST with yaml.safe_load. Same argument as ruff/mypy above — it is invoked at
+  # runtime, so it is a runtime dep. Left implicit it would vanish under
+  # `uv sync --no-dev`, and the CI dimension would report `unavailable` forever in
+  # every production install (ADR-0033 §3).
+  "pyyaml>=6.0",
+  "mosaera-agents",
+  "mosaera-policies",
+  "mosaera-memory",
+  "mosaera-connectors",
+]
+
+[project.scripts]
+mosaera = "mosaera_core.cli:main"
+mosaera-bench = "mosaera_core.bench.cli:main"
+mosaera-govbench = "mosaera_core.govbench.cli:main"
+mosaera-guided = "mosaera_core.bench.guided_cli:main"
+mosaera-audit-backlog = "mosaera_core.backlog_audit_cli:main"
+mosaera-layer2-report = "mosaera_core.bench.layer2_report:main"
+mosaera-memory = "mosaera_core.project_memory_cli:main"
+
+[tool.uv.sources]
+mosaera-agents = { workspace = true }
+mosaera-policies = { workspace = true }
+mosaera-memory = { workspace = true }
+mosaera-connectors = { workspace = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["mosaera_core"]

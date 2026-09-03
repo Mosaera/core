@@ -1,0 +1,11 @@
+# MCB-05: refactor a branchy function into a delegating orchestrator with behaviour
+# preserved. The grader checks BOTH that behaviour is unchanged (passes on the seed)
+# AND that a real decomposition happened (structural check — fails on the seed), so a
+# do-nothing run cannot score. Hard tier → a little more headroom.
+kind = "python"
+capability = "refactor"
+tier = "hard"
+max_iterations = 8
+budget_usd = 1.5
+budget_tokens = 500000
+budget_iterations = 8

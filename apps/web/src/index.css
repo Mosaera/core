@@ -1,0 +1,194 @@
+/* Tailwind v4 + shadcn (Base UI) tokens, layered to coexist with the legacy
+   styles.css during the incremental migration.
+
+   Layer order (lowest wins last-resort defaults, highest wins conflicts):
+     reset   — universal defaults the vendored shadcn components assume from
+               Preflight (border-color, outline-color, pointer cursor). Sits
+               BELOW legacy so hand-written rules keep their exact rendering.
+     legacy  — the old hand-written styles.css, untouched.
+     theme/base/components/utilities — Tailwind v4.
+   Preflight itself is intentionally NOT imported until styles.css is retired. */
+@layer reset, legacy, theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+@import "shadcn/tailwind.css"; /* data-state variants + keyframes for shadcn components */
+@import "tw-animate-css";
+@import "./styles.css" layer(legacy);
+
+@custom-variant dark (&:is(.dark *));
+
+/* Dark-first: tokens live in :root, so the app is dark without a .dark class.
+   Values mirror the existing "governed-execution console" palette. */
+:root {
+  --background: #0b0c0e;
+  --foreground: #e9e6e0;
+  --card: rgba(16, 18, 22, 0.6);
+  --card-foreground: #e9e6e0;
+  --popover: #191d23;
+  --popover-foreground: #e9e6e0;
+  --primary: #f2b01c;
+  --primary-foreground: #0b0c0e;
+  --secondary: #1f242b;
+  --secondary-foreground: #e9e6e0;
+  --muted: #191d23;
+  --muted-foreground: #9aa0aa;
+  --accent: #1f242b;
+  --accent-foreground: #e9e6e0;
+  --destructive: #e5574a;
+  --destructive-foreground: #0b0c0e;
+  --success: #3fb98f;
+  --success-foreground: #0b0c0e;
+  --border: rgba(255, 255, 255, 0.12);
+  --input: rgba(255, 255, 255, 0.16);
+  --ring: #f2b01c;
+  --radius: 0.5rem;
+  /* The rail sits on the darker ink-2 surface; amber stays the accent. */
+  --sidebar: #101216;
+  --sidebar-foreground: #e9e6e0;
+  --sidebar-primary: #f2b01c;
+  --sidebar-primary-foreground: #0b0c0e;
+  --sidebar-accent: #1f242b;
+  --sidebar-accent-foreground: #e9e6e0;
+  --sidebar-border: rgba(233, 230, 225, 0.09);
+  --sidebar-ring: #f2b01c;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+  --font-sans: "Archivo Variable", "Archivo", system-ui, sans-serif;
+  --font-heading: var(--font-sans);
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+
+/* Universal defaults the shadcn components assume from Preflight. They live in
+   the bottom `reset` layer so every legacy rule (higher layer) still wins —
+   legacy screens render exactly as before, while un-styled properties inside
+   the new shell resolve to sensible defaults instead of UA styles. */
+@layer reset {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--border);
+    outline-color: color-mix(in oklab, var(--ring) 50%, transparent);
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  /* Preflight isn't loaded, so a plain <button> would otherwise show the UA's
+     gray ButtonFace background AND its default border (visible as card-like
+     boxes on non-shadcn buttons like the file tree). Neutralize both globally;
+     explicit bg-*/border-* utilities still win. */
+  button {
+    background-color: transparent;
+    border-width: 0;
+  }
+  button[data-slot],
+  [data-slot="sidebar-trigger"] {
+    background: transparent;
+    border: 0;
+    font: inherit;
+    color: inherit;
+    padding: 0;
+  }
+  /* shadcn lists (sidebar menus, breadcrumbs) assume Preflight's list reset;
+     scoped to slot-carrying elements so legacy lists keep UA styling. */
+  ul[data-slot],
+  ol[data-slot],
+  li[data-slot] {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* Legacy styles.css defines its own `.flex` (align-items:center; gap:12px) and
+   `.grid` (gap:18px) utilities — the class NAMES collide with Tailwind's. For
+   shadcn slot elements AND anything rendered inside them (dashboard cards etc.),
+   restore the CSS defaults so alignment/gaps come only from explicit utilities;
+   legacy markup (no slotted ancestor) keeps its behavior. Also neutralize the
+   UA list/definition-list styles that Preflight would normally reset.
+   Lives in `base` (above legacy, below utilities). */
+@layer components {
+  /* Shell pass 1b: the mobile sidebar sheet floats OVER page content, so desktop's black/20
+     glass would ghost text through it. A near-opaque ink surface + heavier blur keeps the
+     login language while staying readable. Scoped here because SheetContent's classes live
+     inside ui/sidebar.tsx, which we treat as vendored. */
+  /* Justice under the eclipse IS the rail's surface (owner direction). Baked into the
+     rail container itself — it clips at the rail's live width, so the collapsed icon rail
+     shows a sliver instead of overflowing, and the hall canvas behind carries no second
+     Justice to duplicate. Rail scrim /95 (owner dial); the content canvas sits at /90. */
+  .nav-rail-canvas {
+    background:
+      linear-gradient(rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.95)),
+      url("./assets/nav-justice.webp") center top / cover no-repeat rgb(11, 12, 14);
+  }
+
+  /* The sheet lives in a portal, so the app's fixed canvas can never show through it —
+     the rail canvas and its scrim are baked in here to mirror desktop. */
+  [data-slot="sidebar"][data-mobile="true"] {
+    background:
+      linear-gradient(rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.95)),
+      url("./assets/nav-justice.webp") center top / cover no-repeat rgb(11, 12, 14);
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+  }
+}
+
+@layer base {
+  [data-slot].flex,
+  [data-slot].grid,
+  [data-slot] .flex,
+  [data-slot] .grid {
+    align-items: stretch;
+    gap: 0;
+  }
+  [data-slot] ul,
+  [data-slot] ol,
+  [data-slot] li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  [data-slot] dl,
+  [data-slot] dt,
+  [data-slot] dd,
+  [data-slot] p {
+    margin: 0;
+  }
+}

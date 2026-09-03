@@ -1,0 +1,11 @@
+# MCB-19: fix an off-by-one in a business-day counter — it walks an exclusive range
+# and drops the inclusive end date, undercounting whenever end is a weekday. The seed
+# test masks it (its end falls on a weekend). Existing-codebase work (has a seed/), so
+# kind = "python". A single, well-scoped off-by-one → standard budgets, "moderate".
+kind = "python"
+capability = "bug-fix"
+tier = "moderate"
+max_iterations = 6
+budget_usd = 1.0
+budget_tokens = 400000
+budget_iterations = 6

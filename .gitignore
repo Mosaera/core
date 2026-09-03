@@ -1,0 +1,49 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.python-version.local
+
+# --- Tooling caches ---
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# --- Environment / secrets (never commit) ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# --- Mosaera runtime state (workspaces, memory, reports, checkpoints) ---
+# NO trailing slash, deliberately. `.mosaera/` ignores a DIRECTORY of that name but not a symlink
+# or file of that name — which is how a `.mosaera` symlink was committed on 2026-08-10 and then
+# materialised over the live evidence store, destroying ~2,500 scorecards. See
+# docs/engineering-history/evidence-store-loss-2026-08-10.md.
+.mosaera
+
+# --- Node ---
+node_modules/
+
+# --- Agent-local settings (machine-specific paths; never shared) ---
+.claude/settings.local.json
+
+# --- OS noise ---
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# --- Editors ---
+.idea/
+.vscode/
+*.swp
+docs.zip

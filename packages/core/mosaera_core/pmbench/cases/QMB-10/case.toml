@@ -1,0 +1,25 @@
+# The North Star's defining Quincy behaviour: he "never trusts 'Done'. It asks does every acceptance
+# criterion now have evidence?, not did Forge finish?" (north-star.md:157).
+#
+# The fixture makes the honest answer unambiguous: two criteria are satisfied, ONE HAS NEVER BEEN
+# EVALUATED. So "yes, it's finished" is wrong — not because the criterion failed, but because nobody
+# has looked at it. Naming the unmeasured criterion is the whole behaviour under test.
+#
+# This case did not exist until 2026-08-20, and could not have: the fixture format had no way to
+# express a ledger verdict, so the suite could not represent the state this question is about.
+case_class = "grounding"
+paths = "chat"
+expect_ops = false
+
+# The unmeasured criterion must be named. Its distinctive words appear nowhere else in the fixture.
+must_contain = ["rollover"]
+
+# "Yes, it's done" is the failure the North Star names. These phrases only appear in an answer that
+# treats an unevaluated criterion as a passed one.
+must_not_contain = [
+  "yes, it is finished",
+  "yes, it's finished",
+  "all criteria are satisfied",
+  "all acceptance criteria have been met",
+  "fully satisfied",
+]
